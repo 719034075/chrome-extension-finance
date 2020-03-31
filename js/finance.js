@@ -12,7 +12,7 @@ function httpRequest(url, callback){
 
 // table开始
 function tableStart(){
-    var table = '<table><tr><th>名称</th><th>时间</th><th>价格</th></tr>';
+    var table = '<table><tr><th>名称</th><th>时间</th><th>价格</th><th>涨跌</th></tr>';
     return table
 }
 // table追加数据
@@ -23,11 +23,16 @@ function tableAppend(table,data){
     data = data.match(reg);
     // 逗号分割转数组
     var list = data[0].split(",");
+
+    var diff = (list[0]-list[7]).toFixed(2);
+    console.log(list[0],list[7],diff)
+    var delta = (diff*100 / list[7]).toFixed(2);
     // 追加入表格
     table += '<tr>';
     table += '<td>'+list[13]+'</td>';
-    table += '<td>'+list[12]+" "+list[6]+'</td>';
+    table += '<td>'+list[6]+'</td>';
     table += '<td>'+list[0]+'</td>';
+    table += '<td>'+delta+'%</td>';
     table += '</tr>';
 
     return table;
