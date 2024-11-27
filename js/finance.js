@@ -24,14 +24,14 @@ function tableAppend(table,data){
     // 逗号分割转数组
     var list = data[0].split(",");
 
-    var diff = (list[0]-list[7]).toFixed(2);
+    var diff = (list[3]-list[2]).toFixed(2);
     console.log(list[0],list[7],diff)
-    var delta = (diff*100 / list[7]).toFixed(2);
+    var delta = (diff*100 / list[2]).toFixed(2);
     // 追加入表格
     table += '<tr>';
-    table += '<td>'+list[13]+'</td>';
-    table += '<td>'+list[6]+'</td>';
     table += '<td>'+list[0]+'</td>';
+    table += '<td>'+list[31]+'</td>';
+    table += '<td>'+list[3]+'</td>';
     table += '<td>'+delta+'%</td>';
     table += '</tr>';
 
@@ -47,18 +47,23 @@ function showTable(table){
     document.getElementById('table').innerHTML = table;
 }
 
-var GC = "hf_GC";
-var SI = "hf_SI";
+var a = "sz002349";
+var b = "sz002316";
+var c = "sz000516";
+
 var base_url = 'http://hq.sinajs.cn/list=';
 
 function render(){
     var table = tableStart();
-    httpRequest(base_url+GC,function(result){
+    httpRequest(base_url+a,function(result){
         table=tableAppend(table,result)
-        httpRequest(base_url+SI,function(result){
+        httpRequest(base_url+b,function(result){
             table=tableAppend(table,result)
-            table=tableEnd(table)
-            showTable(table)
+            httpRequest(base_url+c,function(result){
+                table=tableAppend(table,result)
+                table=tableEnd(table)
+                showTable(table)
+            })
         })
     })
 }
